@@ -146,16 +146,16 @@ Setup_2016_06_Active::Setup_2016_06_Active(const string& name, OptionsPtr opt) :
     AddCalibration<calibration::Time>(APT,
                                       calibrationDataManager,
                                       convert_V1190_APT,
-                                      -325,
+                                      -375,
                                       std::make_shared<calibration::gui::FitGaus>(),
                                       timecuts ? interval<double>{-1000, 1000} : no_timecut
                                       );
 
     AddCalibration<calibration::APT_Energy>(APT, calibrationDataManager, convert_MultiHit16bit,
-                                            std::vector<double>{100.0},   // default pedestals
-                                            std::vector<double>{0.014},   // default gain
-                                            std::vector<double>{thresholds ? 15.0 : 0.0}, // default Raw threshold
-                                            std::vector<double>{0.1},                     // default MC MeV threshold
+                                            std::vector<double>{0.0},   // default pedestals
+                                            std::vector<double>{1.0},   // default gain
+                                            std::vector<double>{0.0}, // default Raw threshold
+                                            std::vector<double>{0.0},                     // default MC MeV threshold
                                             std::vector<double>{1.0}      // default relative gain
                                             );
 
