@@ -72,6 +72,10 @@ Setup_2016_06_Active::Setup_2016_06_Active(const string& name, OptionsPtr opt) :
                                                Trigger->Reference_V1190_TAPSPbWO4,
                                                calibration::converter::Gains::V1190_TDC
                                                );
+    const auto& convert_V1190_APT =  make_shared<calibration::converter::MultiHitReference<std::uint16_t>>(
+                                               Trigger->Reference_V1190_APT,
+                                               calibration::converter::Gains::V1190_TDC
+                                               );
 
     // the order of the reconstruct hooks is important
     // add both CATCH converters and the V1190 first,
@@ -79,6 +83,7 @@ Setup_2016_06_Active::Setup_2016_06_Active(const string& name, OptionsPtr opt) :
     AddHook(convert_CATCH_Tagger);
     AddHook(convert_CATCH_CB);
     AddHook(convert_V1190_TAPSPbWO4);
+    AddHook(convert_V1190_APT);
 
     // Tagger/EPT QDC measurements need some simple hook
     AddHook<calibration::Tagger_QDC>(Tagger->Type, convert_MultiHit16bit);
@@ -138,12 +143,12 @@ Setup_2016_06_Active::Setup_2016_06_Active(const string& name, OptionsPtr opt) :
                                                timecuts ? interval<double>{-12, 12} : no_timecut
                                                );
     AddCalibration<calibration::Time>(APT,
-                                          calibrationDataManager,
-                                          convert_CATCH_CB,
-                                          -325,
-                                          std::make_shared<calibration::gui::FitGaus>(),
-                                          timecuts ? interval<double>{-25, 40} : no_timecut
-                                          );
+                                      calibrationDataManager,
+                                      convert_V1190_APT,
+                                      -325,
+                                      std::make_shared<calibration::gui::FitGaus>(),
+                                      timecuts ? interval<double>{-1000, 1000} : no_timecut
+                                      );
 
     AddCalibration<calibration::CB_Energy>(CB, calibrationDataManager, convert_GeSiCa_SADC,
                                            std::vector<double>{0},    // default pedestal
