@@ -82,17 +82,15 @@ void Time::ProcessEvent(const TEvent& event, manager_t&)
         }
     }
     else {
-        for(const auto& cand: event.Reconstructed().Candidates) {
-            for(const TCluster& cluster: cand.Clusters) {
-                if(cluster.DetectorType != Detector->Type)
-                    continue;
-                hTime->Fill(cluster.Time, cluster.CentralElement);
-                hTimeZoomed->Fill(cluster.Time, cluster.CentralElement);
-                hTimeToTriggerRef->Fill(cluster.Time - TriggerRefTime, cluster.CentralElement);
-                for(const auto& taggerhit : event.Reconstructed().TaggerHits) {
-                    const double relative_time = cluster.Time - taggerhit.Time;
-                    hTimeToTagger->Fill(relative_time, cluster.CentralElement);
-                }
+        for(const TCluster& cluster: event.Reconstructed().Clusters) {
+            if(cluster.DetectorType != Detector->Type)
+                continue;
+            hTime->Fill(cluster.Time, cluster.CentralElement);
+            hTimeZoomed->Fill(cluster.Time, cluster.CentralElement);
+            hTimeToTriggerRef->Fill(cluster.Time - TriggerRefTime, cluster.CentralElement);
+            for(const auto& taggerhit : event.Reconstructed().TaggerHits) {
+                const double relative_time = cluster.Time - taggerhit.Time;
+                hTimeToTagger->Fill(relative_time, cluster.CentralElement);
             }
         }
     }
