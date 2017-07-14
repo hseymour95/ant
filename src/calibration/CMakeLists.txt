@@ -25,6 +25,7 @@ set(SRCS
     modules/CB_SourceCalib.cc
     modules/Tagger_QDC.cc
     modules/ClusterCorrection.cc
+    modules/APT_Energy.cc
     converters/GeSiCa_SADC.h
     converters/MultiHit.h
     converters/MultiHitReference.cc

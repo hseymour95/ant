@@ -4,6 +4,7 @@
 #include "base/Logger.h"
 
 #include "calibration/modules/Time.h"
+#include "calibration/modules/APT_Energy.h"
 #include "calibration/modules/CB_Energy.h"
 #include "calibration/modules/CB_TimeWalk.h"
 #include "calibration/modules/PID_Energy.h"
@@ -149,6 +150,14 @@ Setup_2016_06_Active::Setup_2016_06_Active(const string& name, OptionsPtr opt) :
                                       std::make_shared<calibration::gui::FitGaus>(),
                                       timecuts ? interval<double>{-1000, 1000} : no_timecut
                                       );
+
+    AddCalibration<calibration::APT_Energy>(APT, calibrationDataManager, convert_MultiHit16bit,
+                                            std::vector<double>{100.0},   // default pedestals
+                                            std::vector<double>{0.014},   // default gain
+                                            std::vector<double>{thresholds ? 15.0 : 0.0}, // default Raw threshold
+                                            std::vector<double>{0.1},                     // default MC MeV threshold
+                                            std::vector<double>{1.0}      // default relative gain
+                                            );
 
     AddCalibration<calibration::CB_Energy>(CB, calibrationDataManager, convert_GeSiCa_SADC,
                                            std::vector<double>{0},    // default pedestal
