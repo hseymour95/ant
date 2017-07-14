@@ -84,6 +84,7 @@ struct Trigger_2014 :
 {
 
     static const ReferenceTimingHitMapping_t Reference_V1190_TAPSPbWO4;
+    static const ReferenceTimingHitMapping_t Reference_V1190_APT;
 
     virtual void BuildMappings(
             std::vector<hit_mapping_t>&,
