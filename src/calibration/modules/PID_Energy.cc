@@ -108,4 +108,6 @@ void ant::calibration::PID_Energy::ApplyTo(TEventData& reconstructed)
             continue;
         cand.VetoEnergy *= sin(cand.Theta);
     }
+
+    //reconstructed.Target.ActivePhotons = 5;
 }
