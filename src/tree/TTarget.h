@@ -12,6 +12,7 @@ namespace ant {
 
 struct TTarget {
 
+    //int ActivePhotons;
     vec3 Vertex;
 
     TTarget(const vec3& vertex = {std_ext::NaN, std_ext::NaN, std_ext::NaN}):
