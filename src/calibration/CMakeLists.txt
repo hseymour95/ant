@@ -56,6 +56,7 @@ set(SRCS
     fitfunctions/FitGausexpo.cc
     fitfunctions/FitWeibullLandauPol1.cc
     fitfunctions/FitVetoBand.cc
+    fitfunctions/FitPhotonPeaks.cc
     modules/detail/TH2Storage.cc
   )
 
