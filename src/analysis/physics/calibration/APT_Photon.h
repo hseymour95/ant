@@ -1,11 +1,14 @@
-#ifndef APT_PHOTON_H
-#define APT_PHOTON_H
+#pragma once
 
+#include "analysis/physics/Physics.h"
+#include "analysis/utils/fitter/KinFitter.h"
+#include "analysis/utils/uncertainties/Optimized.h"
+#include "analysis/utils/uncertainties/FitterSergey.h"
+#include "analysis/plot/PromptRandomHist.h"
+#include "analysis/utils/TriggerSimulation.h"
 
-class APT_Photon
-{
-public:
-    APT_Photon();
-};
+#include "TLorentzVector.h"
 
-#endif // APT_PHOTON_H
+namespace ant {
+namespace analysis {
+namespace physics {
