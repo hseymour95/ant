@@ -108,6 +108,10 @@ struct WeibullLandau {
         return helper::makeTF1(WeibullLandau::fct, 5);
     }
 };
+struct photonpeaks {
+    static double fct(double *x, double *p);
+    static TF1* getTF1();
+};
 
 /**
  *@brief weibull * landau + polynomial of order n

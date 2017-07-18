@@ -84,7 +84,14 @@ TF1* weibull::getTF1()
 {
     return helper::makeTF1(fct, 2);
 }
-
+double photonpeaks::fct(double *x, double *p)
+{
+    return sqrt(2*M_PI*pow(p[0],2)+p[4]*pow(p[1],2))*exp(-0.5*pow((x[0]-p[2]-p[4]*p[3]),2)/(pow(p[0],2)+p[4]*pow(p[1],2)));
+}
+TF1*photonpeaks::getTF1()
+{
+    return helper::makeTF1(fct,6);
+}
 
 template double pol<2>::fct(double *x, double *p);
 template double pol<3>::fct(double *x, double *p);
