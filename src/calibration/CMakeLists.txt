@@ -8,10 +8,10 @@ set(SRCS
     Editor.cc
     modules/Time.cc
     modules/Energy.cc
-    modules/Photon.cc
+    #modules/Photon_APT.cc
     modules/CalibType.cc
     modules/Energy_GUI.cc
-    modules/Photon_GUI.cc
+    #modules/Photon_APT_GUI.cc
     modules/TAPS_ShowerCorrection.h
     modules/CB_Energy.cc
     modules/CB_TimeWalk.cc
@@ -28,7 +28,7 @@ set(SRCS
     modules/Tagger_QDC.cc
     modules/ClusterCorrection.cc
     modules/APT_Energy.cc
-    modules/APT_Photon.cc
+    #modules/APT_Photon.cc
     converters/GeSiCa_SADC.h
     converters/MultiHit.h
     converters/MultiHitReference.cc

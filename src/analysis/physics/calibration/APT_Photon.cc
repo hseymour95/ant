@@ -24,7 +24,7 @@ APT_Photon::APT_Photon(const string& name, OptionsPtr opts) :
     const BinSettings apt_energy(100, 0, 10);
 
     h_pedestals = HistFac.makeTH2D(
-                      "PID Pedestals",
+                      "APT Pedestals",
                       "Raw ADC value",
                       "#",
                       apt_rawvalues,
