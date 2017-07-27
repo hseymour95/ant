@@ -13,8 +13,47 @@
 namespace ant {
 
 struct TTarget {
+    struct ActivePhotons
+    {
 
-     struct ActivePhotons
+        struct Datum
+        {
+           TDetectorReadHit::Value_t Value;
+
+           Datum(const TDetectorReadHit::Value_t& value):
+               Value(value)
+           {}
+
+           template<class Archive>
+           void serialize(Archive& archive) {
+               archive(Value);
+           }
+           Datum() {}
+        };
+
+       std::list<Datum> Data;
+       double PhotonNumber;
+
+       ActivePhotons(double photonnumber):
+           PhotonNumber(photonnumber)
+       {}
+
+       template<class Archive>
+       void serialize(Archive& archive) {
+           archive(PhotonNumber);
+       }
+
+       friend std::ostream& operator<<( std::ostream& s, const ActivePhotons& o) {
+           s << ", Number Photons=" << o.PhotonNumber;
+           for(const auto& datum : o.Data) {
+               s << "=" << datum.Value;
+           }
+           return s;
+       }
+       ActivePhotons()=default;
+       };
+
+     /***struct ActivePhotons
      {
 
          struct Datum
@@ -55,12 +94,14 @@ struct TTarget {
             return s;
         }
         ActivePhotons()=default;
-        };
+        };***/
 
     vec3 Vertex;
+    double ActivePhotons;
 
-    TTarget(const vec3& vertex = {std_ext::NaN, std_ext::NaN, std_ext::NaN}):
-        Vertex(vertex)
+    TTarget(const vec3& vertex = {std_ext::NaN, std_ext::NaN, std_ext::NaN}, const double& activephotons={std_ext::NaN}):
+        Vertex(vertex),
+        ActivePhotons(activephotons)
     {}
 
 
