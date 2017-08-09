@@ -12,6 +12,62 @@ using namespace std;
 using namespace ant;
 using namespace ant::analysis::physics;
 
+Photon::Photon(const Detector_t::Type_t& detectorType, const string& name, OptionsPtr opts) :
+    Physics(name, opts),
+    Detector(ExpConfig::Setup::GetDetector(detectorType))
+{
+    const auto detector = ExpConfig::Setup::GetDetector(Detector_t::Type_t::APT);
+    const auto nChannels = detector->GetNChannels();
+
+    const BinSettings apt_channels(nChannels);
+    const BinSettings apt_rawvalues(300);
+    const BinSettings energybins(500, 0, 10);
+    //const BinSettings cb_energy(600, 0, 1200);
+    const BinSettings apt_energy(100, 0, 10);
+
+    h_pedestals = HistFac.makeTH2D(
+                      "APT Pedestals",
+                      "Raw ADC value",
+                      "#",
+                      apt_rawvalues,
+                      apt_channels,
+                      "Pedestals");
+}
+
+void Photon::ProcessEvent(const TEvent& event, manager_t&)
+{
+    for(const TDetectorReadHit& dethit : event.Reconstructed().DetectorReadHits) {
+        if(dethit.DetectorType != Detector->Type)
+            continue;
+        if(dethit.ChannelType != Channel_t::Type_t::Integral)
+            continue;
+        h_pedestals->Fill(dethit.Values.size(), dethit.Channel);
+    }
+}
+void Photon::ShowResult()
+{
+    canvas(GetName())
+            <<drawoption("colz")
+            <<h_pedestals
+            <<endc;
+}
+namespace ant {
+namespace analysis {
+namespace physics {
+
+struct APT_Photon : Photon{
+    APT_Photon(const std::string& name, OptionsPtr opts) :
+        Photon(Detector_t::Type_t::APT, name, opts)
+    {}
+};
+AUTO_REGISTER_PHYSICS(APT_Photon)
+}}}
+
+
+/*** using namespace std;
+using namespace ant;
+using namespace ant::analysis::physics;
+
 template<typename T>
 bool APT_Energy::shift_right(std::vector<T>& v)
 {
@@ -381,11 +437,11 @@ bool APT_Energy::find_best_comb(const TTaggerHit& taggerhit,
     TParticlePtr proton;
     TParticleList photons;
 
-    /* kinematical checks to reduce computing time */
+    kinematical checks to reduce computing time
     const interval<double> coplanarity({-25, 25});
     const interval<double> mm = ParticleTypeDatabase::Proton.GetWindow(300);
 
-    /* test all different combinations to find the best proton candidate */
+     test all different combinations to find the best proton candidate
     size_t i = 0;
     do {
         // ensure the possible proton candidate is kinematically allowed
@@ -409,8 +465,8 @@ bool APT_Energy::find_best_comb(const TTaggerHit& taggerhit,
         if (!mm.Contains(missing.M()))
             continue;
 
-        /* now start with the kinematic fitting */
-        auto& fit = kinfits.at(photons.size()-MinNGamma());  // choose the fitter for the right amount of photons
+         now start with the kinematic fitting
+       auto& fit = kinfits.at(photons.size()-MinNGamma());  // choose the fitter for the right amount of photons
 
         auto kinfit_result = fit.DoFit(taggerhit.PhotonEnergy, proton, photons);
 
@@ -439,4 +495,4 @@ bool APT_Energy::find_best_comb(const TTaggerHit& taggerhit,
     return true;
 }
 
-AUTO_REGISTER_PHYSICS(APT_Energy)
+AUTO_REGISTER_PHYSICS(APT_Energy)***/

@@ -9,7 +9,44 @@
 
 #include "TLorentzVector.h"
 
+#pragma once
+
+#include "analysis/physics/Physics.h"
+#include "analysis/utils/fitter/KinFitter.h"
+#include "analysis/utils/uncertainties/Optimized.h"
+#include "analysis/utils/uncertainties/FitterSergey.h"
+#include "analysis/plot/PromptRandomHist.h"
+#include "analysis/utils/TriggerSimulation.h"
+
+#include "TLorentzVector.h"
+
 namespace ant {
+namespace analysis {
+namespace physics {
+class Photon : public Physics {
+
+protected:
+    utils::TriggerSimulation triggersimu;
+    utils::UncertaintyModelPtr model;
+    utils::KinFitter kinfit;
+
+    TH2D* h_pedestals = nullptr;
+
+    std::shared_ptr<Detector_t> Detector;
+
+public:
+
+    Photon(const Detector_t::Type_t& detectorType,
+           const std::string& name, OptionsPtr opts);
+    virtual void ProcessEvent(const TEvent& event, manager_t& manager) override;
+    virtual void ShowResult() override;
+};
+
+}
+}
+}
+
+/*** namespace ant {
 namespace analysis {
 namespace physics {
 
@@ -75,4 +112,4 @@ public:
     virtual void Finish() override;
 };
 
-}}} // namespace ant::analysis::physics
+}}} // namespace ant::analysis::physics ***/
