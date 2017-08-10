@@ -63,6 +63,15 @@ void APT_Energy::GetGUIs(std::list<std::unique_ptr<gui::CalibModule_traits> >& g
                           make_shared<gui::FitGaus>()
                           ));
 
+    guis.emplace_back(std_ext::make_unique<energy::GUI_Photon>(
+                          GetName(),
+                          options,
+                          Pedestals,
+                          calibrationManager,
+                          apt_detector,
+                          make_shared<gui::FitPhotonPeaks>()
+                          ));
+
     if(options->HasOption("UseHEP")) {
         guis.emplace_back(std_ext::make_unique<energy::GUI_HEP>(
                               GetName(),
