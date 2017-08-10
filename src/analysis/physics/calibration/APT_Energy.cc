@@ -20,7 +20,7 @@ Photon::Photon(const Detector_t::Type_t& detectorType, const string& name, Optio
     const auto nChannels = detector->GetNChannels();
 
     const BinSettings apt_channels(nChannels);
-    const BinSettings apt_rawvalues(300);
+    const BinSettings apt_rawvalues(4096);
     const BinSettings energybins(500, 0, 10);
     //const BinSettings cb_energy(600, 0, 1200);
     const BinSettings apt_energy(100, 0, 10);
@@ -41,7 +41,8 @@ void Photon::ProcessEvent(const TEvent& event, manager_t&)
             continue;
         if(dethit.ChannelType != Channel_t::Type_t::Integral)
             continue;
-        h_pedestals->Fill(dethit.Values.size(), dethit.Channel);
+        for(const TDetectorReadHit::Value_t& value : dethit.Values)
+            h_pedestals->Fill(value.Calibrated, dethit.Channel);
     }
 }
 void Photon::ShowResult()
