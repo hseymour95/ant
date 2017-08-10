@@ -21,6 +21,10 @@ namespace gui {
 class FitVetoBand;
 }
 
+namespace gui {
+class FitPhotonPeaks;
+}
+
 namespace energy {
 
 struct GUI_Pedestals : GUI_CalibType {
@@ -158,5 +162,25 @@ protected:
 
     const std::string full_hist_name;
 }; // GUI_BananaSlices
+
+struct GUI_Photon : GUI_CalibType {
+    GUI_Photon(const std::string& basename,
+                  OptionsPtr options,
+                  CalibType& type,
+                  const std::shared_ptr<DataManager>& calmgr,
+                  const detector_ptr_t& detector,
+                  std::shared_ptr<gui::PeakingFitFunction> fitfunction);
+
+    virtual void InitGUI(gui::ManagerWindow_traits& window) override;
+    virtual DoFitReturn_t DoFit(const TH1& hist, unsigned channel) override;
+    virtual void DisplayFit() override;
+    virtual void StoreFit(unsigned channel) override;
+    virtual bool FinishSlice() override;
+protected:
+    std::shared_ptr<gui::PeakingFitFunction> func;
+    gui::CalCanvas* canvas;
+    TH1*  h_projection = nullptr;
+
+};
 
 }}} // namespace ant::calibration::energy

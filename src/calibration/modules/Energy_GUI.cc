@@ -551,3 +551,75 @@ bool GUI_BananaSlices::FinishSlice()
 
 //    return true;
 }
+
+GUI_Photon::GUI_Photon(const string& basename,
+        OptionsPtr options,
+        CalibType& type,
+        const std::shared_ptr<DataManager>& calmgr,
+        const detector_ptr_t& detector,
+        shared_ptr<gui::PeakingFitFunction> fitfunction) :
+    GUI_CalibType(basename, options, type, calmgr, detector, Calibration::AddMode_t::RightOpen),
+    func(fitfunction)
+{
+
+}
+
+void GUI_Photon::InitGUI(gui::ManagerWindow_traits& window)
+{
+    GUI_CalibType::InitGUI(window);
+    canvas = window.AddCalCanvas();
+}
+
+gui::CalibModule_traits::DoFitReturn_t GUI_Photon::DoFit(const TH1& hist, unsigned channel)
+{
+    if(detector->IsIgnored(channel))
+        return DoFitReturn_t::Skip;
+
+    auto& hist2 = dynamic_cast<const TH2&>(hist);
+
+    h_projection = hist2.ProjectionX("h_projection",channel+1,channel+1);
+
+    func->SetDefaults(h_projection);
+    const auto it_fit_param = fitParameters.find(channel);
+    if(it_fit_param != fitParameters.end() && !IgnorePreviousFitParameters) {
+        VLOG(5) << "Loading previous fit parameters for channel " << channel;
+        func->Load(it_fit_param->second);
+    }
+
+    for(size_t i=0;i<5;i++)
+        func->Fit(h_projection);
+
+    /// \todo implement automatic stop if fit failed?
+
+    // goto next channel
+    return DoFitReturn_t::Next;
+}
+
+void GUI_Photon::DisplayFit()
+{
+    canvas->Show(h_projection, func.get());
+}
+
+void GUI_Photon::StoreFit(unsigned channel)
+{
+
+    const double oldValue = previousValues[channel];
+    const double newValue = func->GetPeakPosition();
+
+    calibType.Values[channel] = newValue;
+
+    const double relative_change = 100*(newValue/oldValue-1);
+
+    LOG(INFO) << "Stored Ch=" << channel << ":  "
+              <<" Pedestal changed " << oldValue << " -> " << newValue
+              << " (" << relative_change << " %)";
+
+
+    // don't forget the fit parameters
+    fitParameters[channel] = func->Save();
+}
+
+bool GUI_Photon::FinishSlice()
+{
+    return false;
+}
