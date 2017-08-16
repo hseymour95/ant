@@ -36,6 +36,7 @@ protected:
            const std::shared_ptr<DataManager>& calmgr,
            const Calibration::Converter::ptr_t& converter,
            defaults_t defaultPedestals,
+           defaults_t defaultPhotons,
            defaults_t defaultGains,
            defaults_t defaultThresholds_Raw,
            defaults_t defaultThresholds_MeV,
@@ -52,6 +53,7 @@ protected:
     const Calibration::Converter::ptr_t Converter;
 
     CalibType Pedestals;
+    CalibType Photons;
     CalibType Gains;
     CalibType Thresholds_Raw;
     CalibType Thresholds_MeV;
@@ -59,6 +61,7 @@ protected:
 
     std::vector<CalibType*> AllCalibrations = {
         std::addressof(Pedestals),
+        std::addressof(Photons),
         std::addressof(Gains),
         std::addressof(Thresholds_Raw),
         std::addressof(Thresholds_MeV),
