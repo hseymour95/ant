@@ -28,6 +28,7 @@ public:
             const std::shared_ptr<DataManager>& calmgr,
             const Calibration::Converter::ptr_t& converter,
             defaults_t defaultPedestals,
+            defaults_t defaultPhotons,
             defaults_t defaultGains,
             defaults_t defaultThresholds_Raw, // roughly width of pedestal peak
             defaults_t defaultThresholds_MeV,

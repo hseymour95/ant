@@ -6,6 +6,8 @@
 
 #include "calibration/fitfunctions/FitGaus.h"
 
+#include "calibration/fitfunctions/FitPhotonPeaks.h"
+
 #include "expconfig/detectors/APT.h"
 
 #include "base/Logger.h"
@@ -24,6 +26,7 @@ APT_Energy::APT_Energy(
         const std::shared_ptr<DataManager>& calmgr,
         const Calibration::Converter::ptr_t& converter,
         defaults_t defaultPedestals,
+        defaults_t defaultPhotons,
         defaults_t defaultGains,
         defaults_t defaultThresholds_Raw,
         defaults_t defaultThresholds_MeV,
@@ -33,6 +36,7 @@ APT_Energy::APT_Energy(
            calmgr,
            converter,
            defaultPedestals,
+           defaultPhotons,
            defaultGains,
            defaultThresholds_Raw,
            defaultThresholds_MeV,
@@ -66,7 +70,7 @@ void APT_Energy::GetGUIs(std::list<std::unique_ptr<gui::CalibModule_traits> >& g
     guis.emplace_back(std_ext::make_unique<energy::GUI_Photon>(
                           GetName(),
                           options,
-                          Pedestals,
+                          Photons,
                           calibrationManager,
                           apt_detector,
                           make_shared<gui::FitPhotonPeaks>()
