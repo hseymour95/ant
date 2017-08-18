@@ -50,6 +50,7 @@ TAPS_Energy::TAPS_Energy(const detector_ptr_t& taps,
            calmgr,
            converter,
            defaultPedestals,
+           {0.0}, // TAPS does not calibrate scintillation photons
            defaultGains,
            makeDefaults(taps, defaultThreshold_Raw_BaF2, defaultThreshold_Raw_PbWO4),
            defaultThresholds_MeV,

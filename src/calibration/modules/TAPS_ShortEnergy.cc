@@ -33,6 +33,7 @@ TAPS_ShortEnergy::TAPS_ShortEnergy(
            calmgr,
            converter,
            defaultPedestals,
+           {0.0}, // TAPS does not calibrate scintillation photons
            defaultGains,
            defaultThresholds_Raw,
            defaultThresholds_MeV,

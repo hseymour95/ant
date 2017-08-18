@@ -41,6 +41,7 @@ TAPSVeto_Energy::TAPSVeto_Energy(const detector_ptr_t& tapsveto,
            calmgr,
            converter,
            {defaultPedestal},
+           {0.0}, // Veto does not calibrate scintillation photons
            makeDefaults(tapsveto, defaultGain_BaF2, defaultGain_PbWO4),
            /// \todo make this configurable by setup (see TAPS_Energy)
            makeDefaults(tapsveto, 5, 0),

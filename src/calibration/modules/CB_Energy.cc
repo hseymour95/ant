@@ -28,6 +28,7 @@ CB_Energy::CB_Energy(const std::shared_ptr<const expconfig::detector::CB>& cb,
            calmgr,
            converter,
            defaultPedestals,
+           {0.0}, // CB does not calibrate scintillation photons
            defaultGains,
            {0.0}, // CB has online pedestal suppression
            defaultThresholds_MeV,

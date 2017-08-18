@@ -33,6 +33,7 @@ PID_Energy::PID_Energy(
            calmgr,
            converter,
            defaultPedestals,
+           {0.0}, // PID does not calibrate scintillation photons
            defaultGains,
            defaultThresholds_Raw,
            defaultThresholds_MeV,
