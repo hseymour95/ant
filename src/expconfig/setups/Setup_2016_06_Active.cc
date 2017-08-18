@@ -153,6 +153,7 @@ Setup_2016_06_Active::Setup_2016_06_Active(const string& name, OptionsPtr opt) :
 
     AddCalibration<calibration::APT_Energy>(APT, calibrationDataManager, convert_MultiHit16bit,
                                             std::vector<double>{0.0},   // default pedestals
+                                            std::vector<double>{1.0},   // default photons
                                             std::vector<double>{1.0},   // default gain
                                             std::vector<double>{0.0}, // default Raw threshold
                                             std::vector<double>{0.0},                     // default MC MeV threshold
